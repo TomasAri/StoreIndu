@@ -1,0 +1,47 @@
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope = "col">Imagen</th>
+            <th scope = "col">Name</th>
+            <th scope = "col">Descripcion</th>
+            <th scope = "col">Price</th>
+            <th scope = "col">Stock</th>
+            <th scope = "col">Compra</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (ropa of ropas; track ropa.name) {
+            <tr [class.clearance]="ropa.clearance" class="text-center align-middle">
+                <td><img [src]=" ropa.imagen " [alt]=" ropa.name " width="250" class="img-thumbnail"></td>
+                <td>{{ ropa.name }}</td>
+                <td>{{ ropa.descripcion }}</td>
+                <td>{{ ropa.price | currency:'USD':'symbol':'1.2-2' }}</td>
+                @if (ropa.stock > 0) {
+                    <td class="text-success">{{ ropa.stock }}</td>
+                } @else {
+                    <td class="text-danger">Agotado</td>
+                }
+                <td>
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <app-input-integer
+                            [quantity]="ropa.quantity"
+                            [max]="ropa.stock"
+                            (quantityChange)="ropa.quantity = $event"
+                            (maxReached)="maxReached($event)">
+                        </app-input-integer>
+                    <button
+                        class="btn btn-primary"
+                        (click)="addToCart(ropa)"
+                        [disabled]="ropa.quantity <= 0 || ropa.quantity > ropa.stock">
+                        Agregar al carrito
+                    </button>
+                    </div>
+                </td>
+            </tr>
+        }@empty {
+            <tr>
+                <td colspan="5" class="text-center">No hay ropa disponible.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,5 @@
+<div class = "input-group flex-nowrap">
+    <button (click)="decreaseQuantity()" class="btn btn-primary btn-sm" [disabled]="quantity <= 0">-</button>
+    <span width="50" class="input-group-text">{{ quantity }}</span>
+    <button (click)="increaseQuantity()" class="btn btn-primary btn-sm">+</button>
+</div>
